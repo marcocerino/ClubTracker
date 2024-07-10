@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "it.macero.club_tracker.anagrafica.grpc";
+option java_outer_classname = "AnagraficaProto";
+
+package anagrafica;
+
+service AnagraficaGrpcResource {
+  rpc GetAll (.google.protobuf.Empty) returns (ListOfAnagrafica){}
+  rpc GetById (.google.protobuf.StringValue) returns (AnagraficaProtobuf){}
+  rpc Insert (AnagraficaProtobuf) returns (AnagraficaProtobuf){}
+  rpc Delete (.google.protobuf.StringValue) returns (.google.protobuf.BoolValue){}
+}
+
+message ListOfAnagrafica {
+  repeated AnagraficaProtobuf listOfAnagrafica = 1;
+}
+
+message AnagraficaProtobuf {
+  string codFiscale = 1;
+  optional string nome = 2;
+  optional string cognome = 3;
+  optional Data dataNascita = 4;
+  optional string email = 5;
+  optional string telefono = 6;
+  repeated RuoloAllenatore ruoliAllenatore = 7;
+  repeated CATEGORIA categorieAtleta = 8;
+}
+
+message Data{
+  int32 anno = 1;
+  int32 mese = 2;
+  int32 giorno = 3;
+}
+
+message RuoloAllenatore{
+  optional CATEGORIA categoria = 1;
+  optional string ruolo = 2;
+}
+
+enum CATEGORIA {
+  U6 = 0;
+  U8 = 1;
+  U10 = 2;
+  U12 = 3;
+  U14 = 4;
+  U16 = 5;
+  U18 = 6;
+  SENIORES = 7;
+  OLD = 8;
+}
